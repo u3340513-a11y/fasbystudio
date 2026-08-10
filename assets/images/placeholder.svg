@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none">
+  <rect width="400" height="400" fill="#F0EBE3"/>
+  <!-- T-shirt silüeti -->
+  <path d="M130 140 L90 170 L100 210 L140 200 L140 300 L260 300 L260 200 L300 210 L310 170 L270 140 L248 165 C240 152 220 145 200 145 C180 145 160 152 152 165 Z" fill="#E2D9CE" stroke="#D4C9BB" stroke-width="2"/>
+  <path d="M152 165 C158 172 200 176 200 176 C200 176 242 172 248 165" stroke="#C9B8A4" stroke-width="1.5" fill="none"/>
+  <text x="200" y="348" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#A89A8A" letter-spacing="2">FASBY STUDIO</text>
+</svg>

@@ -1,0 +1,19 @@
+# Geçici & hassas dosyalar
+setup.lock
+setup.php
+
+# MacOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Editor
+.vscode/
+*.swp
+*.swo
+
+# Log dosyaları
+*.log
+error_log

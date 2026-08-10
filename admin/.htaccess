@@ -1,0 +1,10 @@
+Options -Indexes
+<FilesMatch "\.php$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
+# Yapılandırma dosyalarına erişimi engelle
+<FilesMatch "\.(sql|log|env|htpasswd|json|lock)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>

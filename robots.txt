@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /config/
+Disallow: /includes/
+Disallow: /database/
+Disallow: /ajax/
+
+Sitemap: https://fasbystudio.com/sitemap.xml
