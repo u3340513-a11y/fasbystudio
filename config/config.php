@@ -22,8 +22,8 @@ define('CONTACT_EMAIL', 'info@fasbystudio.com');
 
 // Veritabanı - cPanel MySQL bilgilerinizi girin
 define('DB_HOST',  'localhost');
-define('DB_NAME',  'fasbystudio_fasb');
-define('DB_USER',  'fasbystudio_fasb');
+define('DB_NAME',  'fasbystudiocom_fasb');
+define('DB_USER',  'fasbystudiocom_fasb');
 define('DB_PASS',  'Zindan.11');
 define('DB_CHARSET', 'utf8mb4');
 
