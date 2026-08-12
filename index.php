@@ -229,14 +229,11 @@ $meta = [
                              width="600" height="750"
                              loading="eager">
                     <?php else: ?>
-                        <!-- CSS dekoratif element (resim yoksa) -->
-                        <div style="width:100%;height:100%;background:linear-gradient(135deg,#EDE7DE 0%,#D4C9BB 40%,#C9A882 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;">
-                            <svg width="120" height="120" viewBox="0 0 200 200" fill="none" aria-hidden="true">
-                                <path d="M60 80L30 100 38 130 70 120 70 180H130V120L162 130 170 100 140 80 122 100C112 88 100 83 100 83C100 83 88 88 78 100Z" fill="white" opacity="0.4"/>
-                                <path d="M78 100C84 108 100 112 100 112C100 112 116 108 122 100" stroke="white" stroke-width="2" fill="none" opacity="0.6"/>
-                            </svg>
-                            <span style="color:white;font-family:'Playfair Display',serif;font-size:1.2rem;opacity:0.7;letter-spacing:2px;">FASBY STUDIO</span>
-                        </div>
+                        <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&h=750&fit=crop&q=80"
+                             alt="Özgün grafik tişört tasarımı"
+                             width="600" height="750"
+                             loading="eager"
+                             style="width:100%;height:100%;object-fit:cover;">
                     <?php endif; ?>
                 </div>
 
@@ -374,11 +371,10 @@ $meta = [
             <!-- Görsel -->
             <div class="about-img-wrap anim">
                 <div class="about-img-main">
-                    <img src="/assets/images/designer.jpg"
-                         alt="Tasarımcı portresi - Fasby Studio"
+                    <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=480&h=600&fit=crop&q=80"
+                         alt="Tasarımcı çalışma alanı - Fasby Studio"
                          loading="lazy"
-                         width="480" height="600"
-                         onerror="this.parentElement.style.background='linear-gradient(135deg,#EDE7DE,#C9A882)';this.style.display='none'">
+                         width="480" height="600">
                 </div>
                 <div class="about-img-accent">
                     <div class="accent-inner">
