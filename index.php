@@ -599,7 +599,7 @@ $meta = [
 
         <div class="footer-bottom">
             <p>© <?= date('Y') ?> <?= e($cfg['site_name']) ?>. Tüm hakları saklıdır.</p>
-            <p>Sevgiyle tasarlandı 🧡 | <a href="/admin/login.php">Admin</a></p>
+            <p>Sevgiyle tasarlandı 🧡 | Web Tasarım: <a href="https://hukumdar.com.tr" target="_blank" rel="noopener noreferrer">Hükümdar</a> | <a href="/admin/login.php">Admin</a></p>
         </div>
 
     </div>
