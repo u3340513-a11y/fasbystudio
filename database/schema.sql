@@ -87,5 +87,4 @@ INSERT IGNORE INTO `categories` (`name`, `slug`, `description`, `sort_order`) VA
 -- ŞİFRE: admin123 (kurulumdan sonra setup.php üzerinden değiştirin!)
 -- ============================================================
 INSERT IGNORE INTO `admin_users` (`username`, `password`, `email`) VALUES
-('admin', '$2y$12$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin@fasbystudio.com');
--- Not: Yukarıdaki hash 'password' için. setup.php çalıştırarak kendi şifrenizi belirleyin!
+('admin', '$2y$12$oYCmx.5LJeGDMZkev/jC6eQuy0dqzenHb58U2CBlxKOd4ocbp6V4q', 'admin@fasbystudio.com');
