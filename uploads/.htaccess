@@ -1,2 +1,6 @@
 Options -Indexes
-Deny from all
+
+# PHP çalıştırmayı engelle, görsel dosyalara erişime izin ver
+<FilesMatch "\.php$">
+    Deny from all
+</FilesMatch>
