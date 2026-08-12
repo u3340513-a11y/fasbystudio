@@ -69,7 +69,7 @@ function productImageUrl(?string $image): string {
 }
 
 /** Görsel yükle (güvenli) */
-function uploadImage(array $file, string $prefix = 'product'): string|false {
+function uploadImage(array $file, string $prefix = 'product') {
     $allowed  = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
     $maxBytes = MAX_UPLOAD_SIZE;
 
