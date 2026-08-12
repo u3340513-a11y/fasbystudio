@@ -2,6 +2,9 @@
 setup.lock
 setup.php
 
+# Ortam değişkenleri (DB şifresi vb.)
+config/env.php
+
 # MacOS
 .DS_Store
 .DS_Store?

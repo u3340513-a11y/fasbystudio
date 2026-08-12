@@ -20,11 +20,17 @@ define('TWITTER_URL',    '');
 // İletişim
 define('CONTACT_EMAIL', 'info@fasbystudio.com');
 
-// Veritabanı - cPanel MySQL bilgilerinizi girin
-define('DB_HOST',  'localhost');
-define('DB_NAME',  'fasbystudiocom_fasb');
-define('DB_USER',  'fasbystudiocom_fasb');
-define('DB_PASS',  'Zindan.11');
+// Veritabanı - credentials config/env.php dosyasından okunur (git'e eklenmez)
+$_envFile = __DIR__ . '/env.php';
+if (file_exists($_envFile)) {
+    require_once $_envFile;
+}
+unset($_envFile);
+
+define('DB_HOST',    getenv('DB_HOST') ?: 'localhost');
+define('DB_NAME',    getenv('DB_NAME') ?: '');
+define('DB_USER',    getenv('DB_USER') ?: '');
+define('DB_PASS',    getenv('DB_PASS') ?: '');
 define('DB_CHARSET', 'utf8mb4');
 
 // Yükleme Ayarları
