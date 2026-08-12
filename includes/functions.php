@@ -116,6 +116,28 @@ function formatDateTR(string $dateStr): string {
     return $d->format('d') . ' ' . $months[(int)$d->format('m')] . ' ' . $d->format('Y');
 }
 
+/** Tüm site ayarlarını DB'den getir */
+function getAllSettings(PDO $pdo): array {
+    try {
+        $rows = $pdo->query("SELECT `key`, `value` FROM settings")->fetchAll();
+        $out  = [];
+        foreach ($rows as $row) {
+            $out[$row['key']] = $row['value'] ?? '';
+        }
+        return $out;
+    } catch (PDOException $e) {
+        return [];
+    }
+}
+
+/** Tek ayar kaydet (upsert) */
+function saveSetting(PDO $pdo, string $key, string $value): void {
+    $stmt = $pdo->prepare(
+        "INSERT INTO settings (`key`, `value`) VALUES (?, ?) ON DUPLICATE KEY UPDATE `value` = ?"
+    );
+    $stmt->execute([$key, $value, $value]);
+}
+
 /** Flash mesajı ayarla */
 function setFlash(string $type, string $message): void {
     $_SESSION['flash'] = ['type' => $type, 'message' => $message];

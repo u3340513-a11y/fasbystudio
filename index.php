@@ -3,6 +3,21 @@ require_once __DIR__ . '/config/config.php';
 require_once __DIR__ . '/includes/db.php';
 require_once __DIR__ . '/includes/functions.php';
 
+// Ayarları DB'den yükle, config.php sabitleri fallback
+$settings = getAllSettings($pdo);
+$cfg = [
+    'site_name'   => ($settings['site_name']        ?? '') ?: SITE_NAME,
+    'description' => ($settings['site_description'] ?? '') ?: SITE_DESCRIPTION,
+    'keywords'    => ($settings['site_keywords']    ?? '') ?: SITE_KEYWORDS,
+    'author'      => ($settings['site_author']      ?? '') ?: SITE_AUTHOR,
+    'email'       => ($settings['contact_email']    ?? '') ?: CONTACT_EMAIL,
+    'etsy'        => ($settings['etsy_shop_url']    ?? '') ?: ETSY_SHOP_URL,
+    'instagram'   => $settings['instagram_url']    ?? INSTAGRAM_URL,
+    'pinterest'   => $settings['pinterest_url']    ?? PINTEREST_URL,
+    'twitter'     => $settings['twitter_url']      ?? TWITTER_URL,
+    'logo'        => $settings['logo_image']       ?? '',
+];
+
 // Tüm aktif kategorileri getir
 $stmt = $pdo->query("SELECT * FROM categories ORDER BY sort_order, name");
 $categories = $stmt->fetchAll();
@@ -24,9 +39,9 @@ $featuredCount = (int)$stmt2->fetchColumn();
 
 // SEO meta
 $meta = [
-    'title'       => SITE_NAME . ' | Etsy\'de Özgün Tişört Tasarımları',
-    'description' => SITE_DESCRIPTION,
-    'keywords'    => SITE_KEYWORDS,
+    'title'       => $cfg['site_name'] . ' | Etsy\'de Özgün Tişört Tasarımları',
+    'description' => $cfg['description'],
+    'keywords'    => $cfg['keywords'],
     'url'         => SITE_URL,
     'og_image'    => SITE_URL . '/assets/images/og-image.jpg',
 ];
@@ -41,7 +56,7 @@ $meta = [
     <title><?= e($meta['title']) ?></title>
     <meta name="description"  content="<?= e($meta['description']) ?>">
     <meta name="keywords"     content="<?= e($meta['keywords']) ?>">
-    <meta name="author"       content="<?= e(SITE_AUTHOR) ?>">
+    <meta name="author"       content="<?= e($cfg['author']) ?>">
     <meta name="robots"       content="index, follow">
     <link rel="canonical"     href="<?= e($meta['url']) ?>">
 
@@ -52,7 +67,7 @@ $meta = [
     <meta property="og:description" content="<?= e($meta['description']) ?>">
     <meta property="og:image"       content="<?= e($meta['og_image']) ?>">
     <meta property="og:locale"      content="tr_TR">
-    <meta property="og:site_name"   content="<?= e(SITE_NAME) ?>">
+    <meta property="og:site_name"   content="<?= e($cfg['site_name']) ?>">
 
     <!-- Twitter Card -->
     <meta name="twitter:card"        content="summary_large_image">
@@ -76,13 +91,13 @@ $meta = [
         "@type": "Store",
         "name": "<?= e(SITE_NAME) ?>",
         "url": "<?= e(SITE_URL) ?>",
-        "description": "<?= e(SITE_DESCRIPTION) ?>",
+        "description": "<?= e($cfg['description']) ?>",
         "image": "<?= e($meta['og_image']) ?>",
         "priceRange": "$$",
         "sameAs": [
-            "<?= e(ETSY_SHOP_URL) ?>"
-            <?= INSTAGRAM_URL ? ',"' . e(INSTAGRAM_URL) . '"' : '' ?>
-            <?= PINTEREST_URL ? ',"' . e(PINTEREST_URL) . '"' : '' ?>
+            "<?= e($cfg['etsy']) ?>"
+            <?= $cfg['instagram'] ? ',"' . e($cfg['instagram']) . '"' : '' ?>
+            <?= $cfg['pinterest'] ? ',"' . e($cfg['pinterest']) . '"' : '' ?>
         ],
         "potentialAction": {
             "@type": "SearchAction",
@@ -102,8 +117,12 @@ $meta = [
         <div class="container">
             <div class="navbar-inner">
 
-                <a href="/" class="navbar-logo" aria-label="<?= e(SITE_NAME) ?> Ana Sayfa">
-                    Fasby<em>Studio</em>
+                <a href="/" class="navbar-logo" aria-label="<?= e($cfg['site_name']) ?> Ana Sayfa">
+                    <?php if ($cfg['logo']): ?>
+                        <img src="/uploads/<?= e($cfg['logo']) ?>" alt="<?= e($cfg['site_name']) ?>" style="max-height:40px;width:auto;">
+                    <?php else: ?>
+                        Fasby<em>Studio</em>
+                    <?php endif; ?>
                 </a>
 
                 <ul class="navbar-menu" role="list">
@@ -114,7 +133,7 @@ $meta = [
                 </ul>
 
                 <div style="display:flex;align-items:center;gap:16px;">
-                    <a href="<?= e(ETSY_SHOP_URL) ?>" class="navbar-etsy" target="_blank" rel="noopener noreferrer" aria-label="Etsy mağazamı ziyaret et">
+                    <a href="<?= e($cfg['etsy']) ?>" class="navbar-etsy" target="_blank" rel="noopener noreferrer" aria-label="Etsy mağazamı ziyaret et">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                             <path d="M8.075 23.52C.565 23.27 0 22.51 0 14.96V9.04C0 1.49.565.73 8.075.48 9.42.44 10.83.42 12 .42s2.58.02 3.925.06C23.435.73 24 1.49 24 9.04v5.92c0 7.55-.565 8.31-8.075 8.56C14.58 23.56 13.17 23.58 12 23.58s-2.58-.02-3.925-.06zM7.455 8.37l3.12 3.27v3.93c0 .38.31.69.69.69h1.47c.38 0 .69-.31.69-.69v-3.93l3.12-3.27c.28-.29.27-.75-.03-1.03a.737.737 0 0 0-1.05.03l-2.73 2.86-2.73-2.86a.74.74 0 0 0-1.05-.03.737.737 0 0 0-.03 1.03z"/>
                         </svg>
@@ -135,7 +154,7 @@ $meta = [
         <a href="#urunler">Tasarımlar</a>
         <a href="#hakkimda">Hakkımda</a>
         <a href="#iletisim">İletişim</a>
-        <a href="<?= e(ETSY_SHOP_URL) ?>" class="navbar-etsy" target="_blank" rel="noopener noreferrer">
+        <a href="<?= e($cfg['etsy']) ?>" class="navbar-etsy" target="_blank" rel="noopener noreferrer">
             🛍️ Etsy Mağazam
         </a>
     </div>
@@ -173,7 +192,7 @@ $meta = [
                             <path d="M5 12h14M12 5l7 7-7 7"/>
                         </svg>
                     </a>
-                    <a href="<?= e(ETSY_SHOP_URL) ?>" class="btn btn-etsy btn-lg" target="_blank" rel="noopener noreferrer">
+                    <a href="<?= e($cfg['etsy']) ?>" class="btn btn-etsy btn-lg" target="_blank" rel="noopener noreferrer">
                         🛍️ Etsy'de Al
                     </a>
                 </div>
@@ -336,7 +355,7 @@ $meta = [
         <?php if (!empty($products)): ?>
         <div style="text-align:center;margin-top:56px;" class="anim">
             <p style="color:var(--muted);margin-bottom:20px;font-size:0.95rem;">Tüm tasarımları Etsy mağazamda keşfedin</p>
-            <a href="<?= e(ETSY_SHOP_URL) ?>" class="btn btn-etsy btn-lg" target="_blank" rel="noopener noreferrer">
+            <a href="<?= e($cfg['etsy']) ?>" class="btn btn-etsy btn-lg" target="_blank" rel="noopener noreferrer">
                 🛍️ Etsy Mağazama Git
             </a>
         </div>
@@ -413,7 +432,7 @@ $meta = [
                 </div>
 
                 <div style="margin-top:36px;">
-                    <a href="<?= e(ETSY_SHOP_URL) ?>" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <a href="<?= e($cfg['etsy']) ?>" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
                         Mağazamı Ziyaret Et
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
                             <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
@@ -446,22 +465,22 @@ $meta = [
                 <p>Sorularını, özel tasarım isteklerini veya iş birliği tekliflerini bana iletebilirsin. Genellikle 24 saat içinde yanıt veriyorum.</p>
 
                 <div class="contact-links">
-                    <a href="mailto:<?= e(CONTACT_EMAIL) ?>" class="contact-link" aria-label="E-posta gönder">
+                    <a href="mailto:<?= e($cfg['email']) ?>" class="contact-link" aria-label="E-posta gönder">
                         <span class="contact-link-icon">✉️</span>
-                        <span><?= e(CONTACT_EMAIL) ?></span>
+                        <span><?= e($cfg['email']) ?></span>
                     </a>
-                    <a href="<?= e(ETSY_SHOP_URL) ?>" class="contact-link" target="_blank" rel="noopener noreferrer" aria-label="Etsy mağazası">
-                        <span class="contact-link-icon">🛍️</span>
+                    <a href="<?= e($cfg['etsy']) ?>" class="contact-link" target="_blank" rel="noopener noreferrer" aria-label="Etsy mağazası">
+                        <span class="contact-link-icon">🛒</span>
                         <span>Etsy Mağazam</span>
                     </a>
-                    <?php if (INSTAGRAM_URL): ?>
-                    <a href="<?= e(INSTAGRAM_URL) ?>" class="contact-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <?php if ($cfg['instagram']): ?>
+                    <a href="<?= e($cfg['instagram']) ?>" class="contact-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                         <span class="contact-link-icon">📸</span>
                         <span>Instagram</span>
                     </a>
                     <?php endif; ?>
-                    <?php if (PINTEREST_URL): ?>
-                    <a href="<?= e(PINTEREST_URL) ?>" class="contact-link" target="_blank" rel="noopener noreferrer" aria-label="Pinterest">
+                    <?php if ($cfg['pinterest']): ?>
+                    <a href="<?= e($cfg['pinterest']) ?>" class="contact-link" target="_blank" rel="noopener noreferrer" aria-label="Pinterest">
                         <span class="contact-link-icon">📌</span>
                         <span>Pinterest</span>
                     </a>
@@ -535,12 +554,12 @@ $meta = [
                 <span class="footer-logo">Fasby<em>Studio</em></span>
                 <p>Özgün, el yapımı tişört tasarımları. Her tişört bir hikaye anlatır. Etsy üzerinden dünya genelinde satış.</p>
                 <div class="footer-socials">
-                    <a href="<?= e(ETSY_SHOP_URL) ?>" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="Etsy">🛍️</a>
-                    <?php if (INSTAGRAM_URL): ?>
-                    <a href="<?= e(INSTAGRAM_URL) ?>" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📸</a>
+                    <a href="<?= e($cfg['etsy']) ?>" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="Etsy">🛒</a>
+                    <?php if ($cfg['instagram']): ?>
+                    <a href="<?= e($cfg['instagram']) ?>" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📸</a>
                     <?php endif; ?>
-                    <?php if (PINTEREST_URL): ?>
-                    <a href="<?= e(PINTEREST_URL) ?>" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="Pinterest">📌</a>
+                    <?php if ($cfg['pinterest']): ?>
+                    <a href="<?= e($cfg['pinterest']) ?>" class="social-btn" target="_blank" rel="noopener noreferrer" aria-label="Pinterest">📌</a>
                     <?php endif; ?>
                 </div>
             </div>
@@ -574,8 +593,8 @@ $meta = [
             <div class="footer-col">
                 <h4>İletişim</h4>
                 <ul>
-                    <li><a href="mailto:<?= e(CONTACT_EMAIL) ?>">✉️ <?= e(CONTACT_EMAIL) ?></a></li>
-                    <li><a href="<?= e(ETSY_SHOP_URL) ?>" target="_blank" rel="noopener noreferrer">🛍️ Etsy Mağazam</a></li>
+                    <li><a href="mailto:<?= e($cfg['email']) ?>">✉️ <?= e($cfg['email']) ?></a></li>
+                    <li><a href="<?= e($cfg['etsy']) ?>" target="_blank" rel="noopener noreferrer">🛍️ Etsy Mağazam</a></li>
                     <li><a href="#iletisim">📩 Mesaj Gönder</a></li>
                 </ul>
             </div>
@@ -583,7 +602,7 @@ $meta = [
         </div>
 
         <div class="footer-bottom">
-            <p>© <?= date('Y') ?> <?= e(SITE_NAME) ?>. Tüm hakları saklıdır.</p>
+            <p>© <?= date('Y') ?> <?= e($cfg['site_name']) ?>. Tüm hakları saklıdır.</p>
             <p>Sevgiyle tasarlandı 🧡 | <a href="/admin/login.php">Admin</a></p>
         </div>
 

@@ -69,6 +69,14 @@ CREATE TABLE IF NOT EXISTS `contact_messages` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Site ayarları tablosu
+CREATE TABLE IF NOT EXISTS `settings` (
+    `key`        VARCHAR(100) NOT NULL,
+    `value`      TEXT         DEFAULT NULL,
+    `updated_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- ============================================================
@@ -88,3 +96,18 @@ INSERT IGNORE INTO `categories` (`name`, `slug`, `description`, `sort_order`) VA
 -- ============================================================
 INSERT IGNORE INTO `admin_users` (`username`, `password`, `email`) VALUES
 ('admin', '$2y$12$oYCmx.5LJeGDMZkev/jC6eQuy0dqzenHb58U2CBlxKOd4ocbp6V4q', 'admin@fasbystudio.com');
+
+-- ============================================================
+-- Varsayılan site ayarları
+-- ============================================================
+INSERT IGNORE INTO `settings` (`key`, `value`) VALUES
+('site_name',        'Fasby Studio'),
+('site_description', 'Etsy\'de özgün, el yapımı tişört tasarımları. Her tişört bir hikaye anlatır.'),
+('site_keywords',    'tişört tasarım, etsy tshirt, özgün tasarım, türk tasarımcı, grafik tişört'),
+('site_author',      'Fasby Studio'),
+('contact_email',    'info@fasbystudio.com'),
+('etsy_shop_url',    'https://www.etsy.com/shop/FasbyStudio'),
+('instagram_url',    ''),
+('pinterest_url',    ''),
+('twitter_url',      ''),
+('logo_image',       '');
